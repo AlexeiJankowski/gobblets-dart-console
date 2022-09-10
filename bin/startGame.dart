@@ -39,7 +39,11 @@ class StartGame {
 
       FieldBuilder.printField(player, fieldSequence);
 
-      move = int.parse(stdin.readLineSync() ?? '');
+      try {
+        move = int.parse(stdin.readLineSync() ?? '');
+      } catch (exception) {
+        move = 0;
+      }
 
       switch (player.currentPieceSize) {
         case 1:
@@ -111,6 +115,9 @@ class StartGame {
   static int pieceSizePicker(Player player) {
     int pieceSize = 0;
     while (pieceSize != 1 && pieceSize != 2 && pieceSize != 3) {
+      if (1 < pieceSize && pieceSize > 3) {
+        clearScreen();
+      }
       stdout.writeln(
           '${player.name}, choose your piece size\n1.Small\n2.Medium\n3.Big');
       stdout.writeln('You have: ${player.smallPieces} small pieces | '
@@ -120,6 +127,7 @@ class StartGame {
         pieceSize = int.parse(stdin.readLineSync() ?? '');
       } catch (exception) {
         pieceSize = 0;
+        clearScreen();
       }
     }
     return pieceSize;

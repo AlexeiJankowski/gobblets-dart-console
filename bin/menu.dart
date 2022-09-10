@@ -53,7 +53,11 @@ class Menu {
     int piece = 0;
     while (!(1 <= piece && piece <= 2)) {
       showMenu('Choose your piece\n1.X\n2.O');
-      piece = int.parse(stdin.readLineSync() ?? "");
+      try {
+        piece = int.parse(stdin.readLineSync() ?? '');
+      } catch (exception) {
+        piece = 0;
+      }
     }
     return piece == 1 ? true : false;
   }
