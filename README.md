@@ -2,7 +2,7 @@
 
 ___
 #### Console version of Gobblets game, written using Dart Language (which I don't know how to use). 
-##### Expanded TicTacToe. But, still, you cannot move pieces on the field
+##### Expanded TicTacToe.
 ___
 It contains 
 - a lot of bugs until code check
@@ -10,5 +10,7 @@ It contains
   
 Todo:
 
+- [x] Now you can change piece position
+- [ ] Interface...
 - [ ] Make Instructions
 - [ ] Code Check
