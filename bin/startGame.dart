@@ -17,10 +17,10 @@ class StartGame {
 
     while (!won) {
       if (player1.madeAMove == false) {
-        makeAMove(player1, fieldSequence);
+        chooseAction(player1, fieldSequence);
         player1.madeAMove = !player1.madeAMove;
       } else {
-        makeAMove(player2, fieldSequence);
+        chooseAction(player2, fieldSequence);
         player1.madeAMove = !player1.madeAMove;
       }
 
@@ -142,6 +142,7 @@ class StartGame {
       int pieceSize,
       String x,
       String o) {
+    print('$pieceSize piecesize');
     if (pieceSize >= 0 && isMoveLegal(move, globalFieldSize)) {
       globalFieldSize.add(move);
       fieldSize.add(move);
@@ -164,7 +165,140 @@ class StartGame {
     return true;
   }
 
+  static int moveOrReplace() {
+    int answer = 0;
+    while (answer != 1 && answer != 2) {
+      print('1.Make a move\n2.Change piece position');
+      try {
+        answer = int.parse(stdin.readLineSync() ?? '');
+      } catch (exception) {
+        answer = 0;
+      }
+    }
+    return answer;
+  }
+
+  static chooseAction(Player player, List<String> fieldSequence) {
+    switch (moveOrReplace()) {
+      case 1:
+        makeAMove(player, fieldSequence);
+        break;
+      case 2:
+        changePiecePosition(player, fieldSequence);
+        break;
+    }
+  }
+
+  static changePiecePosition(Player player, List<String> fieldSequence) {
+    if (player.field.uniqueNumbersField.isNotEmpty) {
+      int removeFrom = 0;
+      int moveTo = 0;
+      int field = 0;
+      print(player.field.uniqueNumbersField);
+      while (!(1 <= removeFrom && removeFrom <= 9)) {
+        print('Choose the piece you want to move');
+        try {
+          removeFrom = int.parse(stdin.readLineSync() ?? '');
+        } catch (exception) {
+          removeFrom = 0;
+        }
+      }
+
+      while (!(1 <= moveTo && moveTo <= 9)) {
+        print('Choose the field part you want to move to');
+        try {
+          moveTo = int.parse(stdin.readLineSync() ?? '');
+        } catch (exception) {
+          moveTo = 0;
+        }
+      }
+
+      //I'm newbie in dart, sorry.
+      //I don't know how to create List<List<int>> and change it on the go
+      //fieldNumber 1 - small/ 2 - medium/ 3 - big
+      List<int> removeInfo =
+          getRemoveInfo(player.field.bigField, removeFrom, 3);
+      if (removeInfo[0] == 0) {
+        removeInfo = getRemoveInfo(player.field.mediumField, removeFrom, 2);
+      }
+      if (removeInfo[0] == 0) {
+        removeInfo = getRemoveInfo(player.field.smallField, removeFrom, 1);
+      }
+
+      print('$removeInfo removeinfo');
+
+      player.field.uniqueNumbersField.remove(removeFrom);
+      player.field.uniqueNumbersField.add(moveTo);
+
+      switch (removeInfo[1]) {
+        case 1:
+          player.field.smallField.remove(removeInfo[0]);
+          /*unfortunatelly there is no way to change class uniqueNumbersField 
+          using methods in dart (or I just don't know one), so...*/
+          if (!setupMove(player, moveTo, fieldSequence, player.field.smallField,
+              Field.smallFieldGlobal, 2, ' x ', ' o ')) {
+            // clearScreen();
+            stdout.writeln('Wrong move... Try one more time');
+            moveTo = 0;
+          } else {
+            clearScreen();
+            fieldSequence[removeFrom - 1] = '   ';
+          }
+          break;
+        case 2:
+          player.field.mediumField.remove(removeInfo[0]);
+          if (!setupMove(
+              player,
+              moveTo,
+              fieldSequence,
+              player.field.mediumField,
+              Field.mediumFieldGlobal,
+              2,
+              ' X ',
+              ' O ')) {
+            clearScreen();
+            stdout.writeln('Wrong move... Try one more time');
+            moveTo = 0;
+          } else {
+            clearScreen();
+            fieldSequence[removeFrom - 1] = '   ';
+          }
+          break;
+        case 3:
+          player.field.bigField.remove(removeInfo[0]);
+          if (!setupMove(player, moveTo, fieldSequence, player.field.bigField,
+              Field.bigFieldGlobal, 2, '!X!', '!O!')) {
+            // clearScreen();
+            stdout.writeln('Wrong move... Try one more time');
+            moveTo = 0;
+          } else {
+            clearScreen();
+            fieldSequence[removeFrom - 1] = '   ';
+          }
+          break;
+      }
+    } else {
+      print('You have nothing to change');
+      makeAMove(player, fieldSequence);
+    }
+  }
+
   static void clearScreen() {
     print("\x1B[2J\x1B[0;0H");
+  }
+
+  static List<int> getRemoveInfo(
+      List<int> field, int removeFrom, int fieldNumber) {
+    var toRemove = 0;
+    if (field.isNotEmpty) {
+      field.forEach((element) {
+        if (element == removeFrom) {
+          toRemove = element;
+        }
+      });
+      return <int>[toRemove, fieldNumber];
+    } else {
+      return <int>[0, 0];
+    }
   }
 }
