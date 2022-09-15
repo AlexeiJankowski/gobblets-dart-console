@@ -10,7 +10,7 @@ It contains
   
 Todo:
 
-- [x] Now you can change piece position
+- [x] Change piece position
 - [ ] Interface...
 - [ ] Make Instructions
 - [ ] Code Check
