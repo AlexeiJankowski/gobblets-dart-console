@@ -4,14 +4,13 @@ import 'player.dart';
 
 class Menu {
   static List<Player> playerBuilder() {
-    const int size = 2;
-    List<Player> players = new List.empty(growable: true);
+    List<Player> players = List.empty(growable: true);
 
-    Player player1 = new Player(
+    Player player1 = Player(
         name: playerName('player 1'),
         piece: piecePicker(),
         firstMove: firstMove());
-    Player player2 = new Player(
+    Player player2 = Player(
         name: playerName('player 2'),
         piece: !player1.piece,
         firstMove: !player1.firstMove);
@@ -23,21 +22,19 @@ class Menu {
   }
 
   static String playerName(String player) {
-    String? name = "";
-    if (name != null && name.isEmpty) {
-      showMenu('Type your name ${player}');
-      name = stdin.readLineSync();
-      clearScreen();
-    }
-    if (name != null) {
-      return name;
-    } else {
+    String name = player;
+    showMenu('Type your name $player');
+    name = stdin.readLineSync() ?? '';
+    clearScreen();
+    if (name.isEmpty || name == '') {
       return player;
+    } else {
+      return name;
     }
   }
 
   static bool firstMove() {
-    String? answer = "";
+    String? answer = '';
     while (answer != null &&
         (answer.toLowerCase() != 'y' && answer.toLowerCase() != 'n')) {
       showMenu('Do you want to make a first move?(y/n)');

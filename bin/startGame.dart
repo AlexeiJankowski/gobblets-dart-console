@@ -191,30 +191,13 @@ class StartGame {
 
   static changePiecePosition(Player player, List<String> fieldSequence) {
     if (player.field.uniqueNumbersField.isNotEmpty) {
-      int removeFrom = 0;
-      int moveTo = 0;
-      int field = 0;
-      print(player.field.uniqueNumbersField);
-      while (!(1 <= removeFrom && removeFrom <= 9)) {
-        print('Choose the piece you want to move');
-        try {
-          removeFrom = int.parse(stdin.readLineSync() ?? '');
-        } catch (exception) {
-          removeFrom = 0;
-        }
-      }
+      FieldBuilder.printField(player, fieldSequence);
+      int removeFrom = moveChoose('Choose the piece you want to move');
+      clearScreen();
+      FieldBuilder.printField(player, fieldSequence);
+      int moveTo = moveChoose('Choose the field part you want to move to');
+      clearScreen();
 
-      while (!(1 <= moveTo && moveTo <= 9)) {
-        print('Choose the field part you want to move to');
-        try {
-          moveTo = int.parse(stdin.readLineSync() ?? '');
-        } catch (exception) {
-          moveTo = 0;
-        }
-      }
-
-      //I'm newbie in dart, sorry.
-      //I don't know how to create List<List<int>> and change it on the go
       //fieldNumber 1 - small/ 2 - medium/ 3 - big
       List<int> removeInfo =
           getRemoveInfo(player.field.bigField, removeFrom, 3);
@@ -224,8 +207,6 @@ class StartGame {
       if (removeInfo[0] == 0) {
         removeInfo = getRemoveInfo(player.field.smallField, removeFrom, 1);
       }
-
-      print('$removeInfo removeinfo');
 
       player.field.uniqueNumbersField.remove(removeFrom);
       player.field.uniqueNumbersField.add(moveTo);
@@ -261,7 +242,11 @@ class StartGame {
             moveTo = 0;
           } else {
             clearScreen();
-            fieldSequence[removeFrom - 1] = '   ';
+            if (player.field.smallField.contains(removeFrom)) {
+              fieldSequence[removeFrom - 1] = player.piece ? ' x ' : ' o ';
+            } else {
+              fieldSequence[removeFrom - 1] = '   ';
+            }
           }
           break;
         case 3:
@@ -273,7 +258,13 @@ class StartGame {
             moveTo = 0;
           } else {
             clearScreen();
-            fieldSequence[removeFrom - 1] = '   ';
+            if (player.field.mediumField.contains(removeFrom)) {
+              fieldSequence[removeFrom - 1] = player.piece ? ' X ' : ' O ';
+            } else if (player.field.smallField.contains(removeFrom)) {
+              fieldSequence[removeFrom - 1] = player.piece ? ' x ' : ' o ';
+            } else {
+              fieldSequence[removeFrom - 1] = '   ';
+            }
           }
           break;
       }
@@ -285,6 +276,19 @@ class StartGame {
 
   static void clearScreen() {
     print("\x1B[2J\x1B[0;0H");
+  }
+
+  static moveChoose(String message) {
+    int move = 0;
+    while (!(1 <= move && move <= 9)) {
+      print(message);
+      try {
+        move = int.parse(stdin.readLineSync() ?? '');
+      } catch (exception) {
+        move = 0;
+      }
+    }
+    return move;
   }
 
   static List<int> getRemoveInfo(
