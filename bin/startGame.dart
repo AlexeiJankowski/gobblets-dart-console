@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'field.dart';
-import 'fuildBuilder.dart';
+import 'fieldBuilder.dart';
 import 'player.dart';
 import 'wonSequences.dart';
 import 'package:collection/collection.dart';

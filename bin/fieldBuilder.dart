@@ -21,7 +21,7 @@ class FieldBuilder {
       }
       fieldString += '${buildLine()}\n';
       if (i < 6) {
-        fieldString += buildHorizontal(horizontal) + '\n';
+        fieldString += '${buildHorizontal()}\n';
       }
     }
 
@@ -39,10 +39,10 @@ class FieldBuilder {
   }
 
   static String buildWithPiece(String piece) {
-    return '${' ' * 1} $piece ${' ' * 1}';
+    return piece.isEmpty ? ' ' * 5 : '  $piece  ';
   }
 
-  static buildHorizontal(String horizontal) {
+  static String buildHorizontal({String horizontal = '-'}) {
     var horizontalBuffer = StringBuffer();
     for (int i = 0; i < 2; i++) {
       horizontalBuffer.write('${horizontal * 7}+');
