@@ -4,7 +4,7 @@ import 'package:gobblets/gobblets.dart';
 import 'package:test/test.dart';
 
 import '../bin/fieldBuilder.dart';
-import '../bin/player.dart';
+import '../bin//models/player.dart';
 
 void main() {
   group('menu', () {

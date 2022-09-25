@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'player.dart';
+import './models/player.dart';
+import 'helper.dart';
 
 class Menu {
   static List<Player> playerBuilder() {
@@ -25,7 +26,7 @@ class Menu {
     String name = player;
     showMenu('Type your name $player');
     name = stdin.readLineSync() ?? '';
-    clearScreen();
+    Helper.clearScreen();
     if (name.isEmpty || name == '') {
       return player;
     } else {
@@ -60,14 +61,24 @@ class Menu {
   }
 
   static void showMenu(String question) {
-    clearScreen();
+    Helper.clearScreen();
     stdout.writeln('Welcome to the Gobblets Game!');
     stdout.writeln('*****************************');
     stdout.writeln('Menu');
     stdout.writeln(question);
   }
 
-  static void clearScreen() {
-    print("\x1B[2J\x1B[0;0H");
+  //from startGame
+  static int moveOrReplace() {
+    int answer = 0;
+    while (answer != 1 && answer != 2) {
+      print('1.Make a move\n2.Change piece position');
+      try {
+        answer = int.parse(stdin.readLineSync() ?? '');
+      } catch (exception) {
+        answer = 0;
+      }
+    }
+    return answer;
   }
 }

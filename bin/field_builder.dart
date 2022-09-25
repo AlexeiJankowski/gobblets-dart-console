@@ -1,27 +1,28 @@
 import 'dart:io';
 
-import 'player.dart';
+import './models/player.dart';
 
 class FieldBuilder {
   static void printField(Player player, List<String> sequence) {
+    FieldBuilder field = FieldBuilder();
     var horizontal = '-';
     stdout.writeln();
 
     //fieldString build
     String fieldString = "";
     for (int i = 0; i < 9; i = i + 3) {
-      fieldString += '${buildLine()}\n';
+      fieldString += '${field.buildLine()}\n';
       for (int j = 0; j < 3; j++) {
-        fieldString += buildWithPiece(sequence[i + j]);
+        fieldString += field.buildWithPiece(sequence[i + j]);
         if (j < 2) {
           fieldString += '|';
         } else {
           fieldString += '\n';
         }
       }
-      fieldString += '${buildLine()}\n';
+      fieldString += '${field.buildLine()}\n';
       if (i < 6) {
-        fieldString += '${buildHorizontal()}\n';
+        fieldString += '${field.buildHorizontal()}\n';
       }
     }
 
@@ -29,7 +30,7 @@ class FieldBuilder {
     stdout.writeln();
   }
 
-  static String buildLine() {
+  String buildLine() {
     var lineBuffer = StringBuffer();
     for (int i = 0; i < 2; i++) {
       lineBuffer.write('${' ' * 7}|');
@@ -38,11 +39,11 @@ class FieldBuilder {
     return lineBuffer.toString();
   }
 
-  static String buildWithPiece(String piece) {
+  String buildWithPiece(String piece) {
     return piece.isEmpty ? ' ' * 5 : '  $piece  ';
   }
 
-  static String buildHorizontal({String horizontal = '-'}) {
+  String buildHorizontal({String horizontal = '-'}) {
     var horizontalBuffer = StringBuffer();
     for (int i = 0; i < 2; i++) {
       horizontalBuffer.write('${horizontal * 7}+');

@@ -1,4 +1,5 @@
 import 'field.dart';
+import 'game.dart';
 
 class Player {
   Player({required this.name, required this.piece, required this.firstMove});
@@ -6,12 +7,13 @@ class Player {
   String name;
   final bool piece;
   final bool firstMove;
-  bool madeAMove = false;
-  bool won = false;
+  // bool madeAMove = false; //game.madeAMove
+  // bool won = false; //Game.won
 
   Field field = Field();
+  Game game = Game();
 
-  int currentPieceSize = 0;
+  // int currentPieceSize = 0; //Game.currentPieceSize
 
   int smallPieces = 2;
   int mediumPieces = 2;
