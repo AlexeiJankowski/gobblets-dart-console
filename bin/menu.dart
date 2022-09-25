@@ -4,7 +4,7 @@ import './models/player.dart';
 import 'helper.dart';
 
 class Menu {
-  static List<Player> playerBuilder() {
+  List<Player> playerBuilder() {
     List<Player> players = List.empty(growable: true);
 
     Player player1 = Player(
@@ -22,7 +22,7 @@ class Menu {
     return players;
   }
 
-  static String playerName(String player) {
+  String playerName(String player) {
     String name = player;
     showMenu('Type your name $player');
     name = stdin.readLineSync() ?? '';
@@ -34,7 +34,7 @@ class Menu {
     }
   }
 
-  static bool firstMove() {
+  bool firstMove() {
     String? answer = '';
     while (answer != null &&
         (answer.toLowerCase() != 'y' && answer.toLowerCase() != 'n')) {
@@ -47,7 +47,7 @@ class Menu {
     return false;
   }
 
-  static bool piecePicker() {
+  bool piecePicker() {
     int piece = 0;
     while (!(1 <= piece && piece <= 2)) {
       showMenu('Choose your piece\n1.X\n2.O');
@@ -60,25 +60,11 @@ class Menu {
     return piece == 1 ? true : false;
   }
 
-  static void showMenu(String question) {
+  showMenu(String question) {
     Helper.clearScreen();
     stdout.writeln('Welcome to the Gobblets Game!');
     stdout.writeln('*****************************');
     stdout.writeln('Menu');
     stdout.writeln(question);
-  }
-
-  //from startGame
-  static int moveOrReplace() {
-    int answer = 0;
-    while (answer != 1 && answer != 2) {
-      print('1.Make a move\n2.Change piece position');
-      try {
-        answer = int.parse(stdin.readLineSync() ?? '');
-      } catch (exception) {
-        answer = 0;
-      }
-    }
-    return answer;
   }
 }
