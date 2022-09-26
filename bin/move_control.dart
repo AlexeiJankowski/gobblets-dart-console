@@ -16,7 +16,7 @@ class MoveControl {
       player.game.currentPieceSize = pieceSizePicker(player);
       stdout.writeln('${player.name}, it\'s your move (1-9)');
 
-      FieldBuilder.printField(player, fieldSequence);
+      FieldBuilder.printField(fieldSequence);
 
       try {
         move = int.parse(stdin.readLineSync() ?? '');
@@ -171,10 +171,10 @@ class MoveControl {
 
   changePiecePosition(Player player, List<String> fieldSequence) {
     if (player.field.uniqueNumbersField.isNotEmpty) {
-      FieldBuilder.printField(player, fieldSequence);
+      FieldBuilder.printField(fieldSequence);
       int removeFrom = moveChoose('Choose the piece you want to move');
       Helper.clearScreen();
-      FieldBuilder.printField(player, fieldSequence);
+      FieldBuilder.printField(fieldSequence);
       int moveTo = moveChoose('Choose the field part you want to move to');
       Helper.clearScreen();
 

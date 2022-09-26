@@ -3,7 +3,7 @@ import 'dart:io';
 import './models/player.dart';
 
 class FieldBuilder {
-  static void printField(Player player, List<String> sequence) {
+  static void printField(List<String> sequence) {
     FieldBuilder field = FieldBuilder();
     var horizontal = '-';
     stdout.writeln();
@@ -26,7 +26,7 @@ class FieldBuilder {
       }
     }
 
-    stdout.writeln(fieldString);
+    print(fieldString);
     stdout.writeln();
   }
 
