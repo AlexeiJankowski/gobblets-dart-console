@@ -14,3 +14,5 @@ Todo:
 - [ ] Interface...
 - [ ] Make Instructions
 - [ ] Code Check
+
+WOOHOO! I don't need to learn dart anymore!
